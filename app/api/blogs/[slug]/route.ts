@@ -6,12 +6,14 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
 
+type SlugParams = { slug: string }
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<SlugParams> }
 ) {
   try {
-    const { slug } = params
+    const { slug } = await context.params
 
     const { data, error } = await supabase
       .from('blogs')
@@ -47,7 +49,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<SlugParams> }
 ) {
   try {
     // Verify admin token
@@ -59,7 +61,7 @@ export async function PATCH(
       )
     }
 
-    const { slug } = params
+    const { slug } = await context.params
     const updates = await request.json()
 
     // Prevent slug changes via PATCH
@@ -91,7 +93,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<SlugParams> }
 ) {
   try {
     // Verify admin token
@@ -103,7 +105,7 @@ export async function DELETE(
       )
     }
 
-    const { slug } = params
+    const { slug } = await context.params
 
     const { error } = await supabase
       .from('blogs')
