@@ -21,7 +21,9 @@ const components: PortableTextComponents = {
         {children}
       </blockquote>
     ),
-    normal: ({ children }) => <p className="mb-6">{children}</p>,
+    normal: ({ children }) => (
+      <p className="mb-6 font-normal leading-[1.8]">{children}</p>
+    ),
   },
   marks: {
     link: ({ children, value }) => {
@@ -97,7 +99,7 @@ export function PostBody({ value }: PostBodyProps) {
   }
 
   return (
-    <div className="space-y-6 text-[1.02rem] font-semibold leading-[1.82] text-[#4A5568]">
+    <div className="space-y-6 text-[1.05rem] leading-[1.8] text-[#4A5568]">
       <PortableText value={value} components={components} />
     </div>
   )

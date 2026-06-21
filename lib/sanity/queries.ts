@@ -26,7 +26,6 @@ const postDetailFields = `
   excerpt,
   author,
   publishedAt,
-  featuredImage,
   body,
   status
 `
