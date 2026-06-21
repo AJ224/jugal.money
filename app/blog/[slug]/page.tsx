@@ -1,38 +1,10 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
-interface Blog {
-  id: string
-  title: string
-  content: string
-  excerpt: string
-  author: string
-  created_at: string
-  slug: string
-}
+import { PostBody } from '@/components/post-body'
+import { getPostBySlug, getPostSlugs } from '@/lib/sanity/queries'
 
-async function getBlog(slug: string): Promise<Blog | null> {
-  try {
-    const base =
-      process.env.NEXT_PUBLIC_BASE_URL ||
-      process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}` ||
-      'http://localhost:3000'
-
-    const res = await fetch(`${base}/api/blogs/${slug}`, {
-      cache: 'no-store',
-    })
-
-    if (!res.ok) {
-      return null
-    }
-
-    const data = await res.json()
-    return data.blog as Blog
-  } catch (e) {
-    console.error('Failed to fetch blog:', e)
-    return null
-  }
-}
+export const revalidate = 60
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
@@ -43,13 +15,23 @@ const formatDate = (dateString: string) => {
   })
 }
 
+export async function generateStaticParams() {
+  try {
+    const slugs = await getPostSlugs()
+    return slugs.map((slug) => ({ slug }))
+  } catch (error) {
+    console.error('Failed to load post slugs for static generation:', error)
+    return []
+  }
+}
+
 export default async function BlogDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const blog = await getBlog(slug)
+  const blog = await getPostBySlug(slug)
 
   if (!blog) {
     return (
@@ -70,22 +52,12 @@ export default async function BlogDetailPage({
     )
   }
 
-  // Split content into paragraphs for better layout across posts
-  const paragraphs = blog.content
-    ? blog.content
-        .split(/\n{2,}/)
-        .map((p) => p.trim())
-        .filter(Boolean)
-    : []
-
   return (
     <main className="min-h-screen bg-white text-[#1A202C]">
-      {/* Progress bar placeholder (design hint, no JS) */}
       <div className="fixed inset-x-0 top-0 h-[3px] bg-[#00A878]/40">
         <div className="h-full w-1/3 bg-[#00A878]" />
       </div>
 
-      {/* Masthead */}
       <header className="sticky top-0 z-40 border-b-[3px] border-[#00A878] bg-[#0A2647]">
         <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-6 lg:px-12">
           <div className="flex items-center font-['Mulish',system-ui,sans-serif] text-[1.45rem] font-extrabold tracking-tight text-white">
@@ -98,7 +70,6 @@ export default async function BlogDetailPage({
         </div>
       </header>
 
-      {/* Hero */}
       <section className="relative flex min-h-[420px] items-end overflow-hidden bg-[#0A2647] px-6 pb-16 pt-12 lg:px-12">
         <div className="pointer-events-none absolute inset-0 opacity-80">
           <div className="h-full w-full bg-[linear-gradient(#ffffff08_1px,transparent_1px),linear-gradient(90deg,#ffffff08_1px,transparent_1px)] bg-[length:48px_48px]" />
@@ -124,11 +95,11 @@ export default async function BlogDetailPage({
             {blog.title}
           </h1>
 
-          {blog.excerpt && (
+          {blog.excerpt ? (
             <p className="mb-10 max-w-2xl text-[1.05rem] font-semibold leading-[1.7] text-white/70">
               {blog.excerpt}
             </p>
-          )}
+          ) : null}
 
           <div className="mt-2 flex flex-wrap items-center justify-center gap-6 border-t border-white/10 pt-5 text-[0.8rem] sm:text-[0.85rem]">
             <div className="border-white/15 pr-0 text-center sm:border-r sm:pr-7 sm:text-left">
@@ -151,15 +122,12 @@ export default async function BlogDetailPage({
               <div className="mb-1 text-[0.58rem] font-extrabold uppercase tracking-[0.14em] text-white/40">
                 Category
               </div>
-              <div className="font-extrabold text-white/80">
-                Essay
-              </div>
+              <div className="font-extrabold text-white/80">Essay</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Body */}
       <div className="mx-auto max-w-3xl px-6 pb-20 pt-10 lg:px-12">
         <div className="mb-10 flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-[2px] bg-[#00A878] text-[0.78rem] font-extrabold text-white">
@@ -171,19 +139,8 @@ export default async function BlogDetailPage({
           </div>
         </div>
 
-        <article className="space-y-6 text-[1.02rem] font-semibold leading-[1.82] text-[#4A5568]">
-          {paragraphs.length === 0 ? (
-            <p>{blog.content}</p>
-          ) : (
-            <>
-              <p className="first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[3.4rem] first-letter:font-extrabold first-letter:leading-[0.85] first-letter:text-[#0A2647] first-letter:tracking-[-0.03em]">
-                {paragraphs[0]}
-              </p>
-              {paragraphs.slice(1).map((p, idx) => (
-                <p key={idx}>{p}</p>
-              ))}
-            </>
-          )}
+        <article>
+          <PostBody value={blog.body} />
         </article>
 
         <div className="mt-12 border-t-2 border-[#D1DCE8] pt-6 flex flex-col items-start justify-between gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[#718096] sm:flex-row">
@@ -201,7 +158,6 @@ export default async function BlogDetailPage({
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="bg-[#0A2647] px-6 py-10 lg:px-12">
         <div className="mx-auto flex max-w-3xl flex-col items-start justify-between gap-8 sm:flex-row">
           <div>
@@ -217,8 +173,7 @@ export default async function BlogDetailPage({
           </div>
           <div className="text-right text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-white/30 sm:text-right">
             {formatDate(blog.created_at)}
-            <br />
-            © {new Date(blog.created_at).getFullYear()} Jugal.Money
+            <br />© {new Date(blog.created_at).getFullYear()} Jugal.Money
           </div>
         </div>
       </footer>

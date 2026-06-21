@@ -201,7 +201,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-[#E5E5E3] px-6 py-10 md:grid-cols-3 md:divide-x md:divide-y-0 md:px-12">
           <div className="px-0 py-6 md:px-8 md:py-10">
             <div className="font-serif text-[48px] leading-none tracking-[-0.04em] text-[#3A5C4E] md:text-[60px]">
-              60+
+              {loading ? '—' : blogs.length > 0 ? blogs.length : '—'}
             </div>
             <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
               Articles
@@ -247,7 +247,7 @@ export default function HomePage() {
             </h2>
           </div>
           <a
-            href="/blog"
+            href="#latest-heading"
             className="hidden items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#3A5C4E] md:inline-flex"
           >
             All articles →
@@ -292,28 +292,10 @@ export default function HomePage() {
                 </div>
               </Link>
             ) : (
-              <div className="col-span-1 bg-white md:col-span-2 md:grid md:grid-cols-2">
-                <div className="flex aspect-[16/10] items-center justify-center bg-[#E5E5E3] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888] md:aspect-auto md:min-h-[260px]">
-                  <span>Cover · Money &amp; Investing</span>
-                </div>
-                <div className="flex flex-col p-9">
-                  <span className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3A5C4E]">
-                    Money &amp; Investing
-                  </span>
-                  <h3 className="mb-3 font-serif text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] md:text-[26px]">
-                    Why most Indians invest for the wrong reasons — and what it actually
-                    costs them
-                  </h3>
-                  <p className="mb-6 text-[13px] font-light leading-[1.7] text-[#888888]">
-                    We&apos;ve been taught to save, not to build. The difference is where
-                    most wealth is quietly lost over a lifetime of good intentions.
-                  </p>
-                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-4 text-[11px] font-medium text-[#888888]">
-                    <span>March 2025</span>
-                    <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
-                    <span>7 min read</span>
-                  </div>
-                </div>
+              <div className="col-span-1 flex items-center justify-center bg-white p-12 md:col-span-2">
+                <p className="max-w-md text-center text-[14px] font-light leading-relaxed text-[#888888]">
+                  Publish your first article in Sanity Studio to feature it here.
+                </p>
               </div>
             )}
 
@@ -341,26 +323,10 @@ export default function HomePage() {
                 </div>
               </Link>
             ) : (
-              <div className="bg-white p-9">
-                <div className="mb-5 flex aspect-[16/9] items-center justify-center bg-[#E5E5E3] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Business Stories
-                </div>
-                <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3A5C4E]">
-                  Business Stories
-                </span>
-                <h3 className="mb-3 font-serif text-[20px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111]">
-                  The quiet collapse of Byju&apos;s — and the one number that explained
-                  it all
-                </h3>
-                <p className="mb-6 text-[13px] font-light leading-[1.7] text-[#888888]">
-                  India&apos;s most valued startup had a fatal flaw hiding in plain
-                  sight for years.
+              <div className="flex items-center justify-center bg-white p-9 text-center">
+                <p className="text-[13px] font-light leading-relaxed text-[#888888]">
+                  More articles coming soon.
                 </p>
-                <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-4 text-[11px] font-medium text-[#888888]">
-                  <span>Feb 2025</span>
-                  <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
-                  <span>9 min</span>
-                </div>
               </div>
             )}
           </div>
@@ -402,7 +368,7 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-px bg-[#E5E5E3]">
               <div className="bg-white px-7 py-6">
                 <div className="font-serif text-[36px] font-semibold leading-none tracking-[-0.03em] text-[#3A5C4E]">
-                  60+
+                  {loading ? '—' : blogs.length > 0 ? blogs.length : '—'}
                 </div>
                 <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
                   Articles
@@ -458,7 +424,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6 pb-14 lg:px-12">
           <div className="grid gap-px bg-[#E5E5E3] md:grid-cols-2 lg:grid-cols-4">
             <a
-              href="/blog?topic=money-investing"
+              href="#latest-heading"
               className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
             >
               <span className="mb-4 block text-[26px]">₹</span>
@@ -471,7 +437,7 @@ export default function HomePage() {
               </p>
             </a>
             <a
-              href="/blog?topic=business-stories"
+              href="#latest-heading"
               className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
             >
               <span className="mb-4 block text-[26px]">📊</span>
@@ -483,7 +449,7 @@ export default function HomePage() {
               </p>
             </a>
             <a
-              href="/blog?topic=lifestyle-thinking"
+              href="#latest-heading"
               className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
             >
               <span className="mb-4 block text-[26px]">✦</span>
@@ -495,7 +461,7 @@ export default function HomePage() {
               </p>
             </a>
             <a
-              href="/blog?topic=travel-experiences"
+              href="#latest-heading"
               className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
             >
               <span className="mb-4 block text-[26px]">✈</span>
@@ -640,7 +606,7 @@ export default function HomePage() {
             jugal<span className="text-[#3A5C4E]">.</span>money
           </Link>
           <div className="flex flex-wrap items-center gap-4 text-[11px] font-medium uppercase tracking-[0.1em] text-white/40">
-            <Link href="/blog" className="hover:text-white/90 transition-colors">
+            <Link href="/#latest-heading" className="hover:text-white/90 transition-colors">
               Articles
             </Link>
             <a href="#about" className="hover:text-white/90 transition-colors">
