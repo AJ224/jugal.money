@@ -5,3 +5,16 @@
     @apply antialiased;
   }
 }
+
+@layer utilities {
+  .hero-mobile-bg {
+    background-color: #0a1f1a;
+    background-image: repeating-linear-gradient(
+      -42deg,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.025) 10px,
+      rgba(255, 255, 255, 0.025) 11px
+    );
+  }
+}

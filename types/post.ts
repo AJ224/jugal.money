@@ -36,7 +36,7 @@ export interface PostCard {
   excerpt: string
   author: string
   created_at: string
-  featured_image?: string
+  featured_image: string
 }
 
 export interface PostDetail {

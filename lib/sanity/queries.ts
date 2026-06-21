@@ -6,6 +6,7 @@ import type {
 } from '@/types/post'
 
 import { client } from '@/lib/sanity/client'
+import { DEFAULT_BLOG_FALLBACK_IMAGE } from '@/lib/blog-fallback-image'
 import { urlFor } from '@/lib/sanity/image'
 
 const postListFields = `
@@ -42,9 +43,9 @@ export const postSlugsQuery = `*[_type == "post" && status == "published" && def
   "slug": slug.current
 }`
 
-function getFeaturedImageUrl(post: SanityPostListItem): string | undefined {
+function getFeaturedImageUrl(post: SanityPostListItem): string {
   if (!post.featuredImage?.asset) {
-    return undefined
+    return DEFAULT_BLOG_FALLBACK_IMAGE
   }
 
   return urlFor(post.featuredImage).width(1200).height(750).fit('crop').url()

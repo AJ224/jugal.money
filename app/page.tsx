@@ -3,7 +3,17 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { ArrowRight, Linkedin, Instagram, Menu, X } from 'lucide-react'
+import {
+  ArrowRight,
+  BarChart3,
+  IndianRupee,
+  Instagram,
+  Linkedin,
+  Menu,
+  Plane,
+  Sparkles,
+  X,
+} from 'lucide-react'
 
 interface Blog {
   id: string
@@ -12,7 +22,7 @@ interface Blog {
   author: string
   created_at: string
   slug: string
-  featured_image?: string
+  featured_image: string
 }
 
 export default function HomePage() {
@@ -46,23 +56,53 @@ export default function HomePage() {
     })
   }
 
+  const topics = [
+    {
+      icon: IndianRupee,
+      title: 'Money & Investing',
+      description:
+        'Personal finance, investing frameworks, money psychology for the long game.',
+    },
+    {
+      icon: BarChart3,
+      title: 'Business Stories',
+      description:
+        'Company deep-dives, case studies, notable frauds, business lessons.',
+    },
+    {
+      icon: Sparkles,
+      title: 'Lifestyle & Thinking',
+      description:
+        'Productivity, habits, and how to build a life that quietly compounds.',
+    },
+    {
+      icon: Plane,
+      title: 'Travel & Experiences',
+      description:
+        'Travel stories and reflections on what places reveal about money and life.',
+    },
+  ] as const
+
   const hasPrimaryFeatured = blogs.length > 0
   const hasSecondaryFeatured = blogs.length > 1
   const primaryFeatured = hasPrimaryFeatured ? blogs[0] : null
   const secondaryFeatured = hasSecondaryFeatured ? blogs[1] : null
+  const latestBlogs = blogs
+    .slice(secondaryFeatured ? 2 : primaryFeatured ? 1 : 0)
+    .slice(0, 3)
 
   return (
     <main className="min-h-screen bg-[#FAFAF8] text-[#111111]">
-      {/* Top nav - Swiss minimal style */}
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-[#E5E5E3] bg-[#FAFAF8]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-12">
+      {/* Top nav */}
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-[#E5E5E3] bg-white/95 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 lg:h-16 lg:px-12">
           <Link
             href="/"
-            className="font-serif text-[17px] font-semibold tracking-tight text-[#111111]"
+            className="font-serif text-[17px] font-semibold tracking-tight text-[#3A5C4E] lg:text-[#111111]"
           >
-            jugal<span className="text-[#3A5C4E]">.</span>money
+            jugal<span className="text-[#3A5C4E] lg:text-[#3A5C4E]">.</span>money
           </Link>
-          <nav className="hidden items-center gap-9 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#888888] sm:flex">
+          <nav className="hidden items-center gap-9 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#888888] lg:flex">
             <a href="#feat" className="hover:text-[#111111] transition-colors">
               Articles
             </a>
@@ -85,39 +125,39 @@ export default function HomePage() {
           <button
             type="button"
             onClick={() => setNavOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-[#111111] sm:hidden"
+            className="inline-flex items-center justify-center rounded-md p-2 text-[#3A5C4E] lg:hidden"
             aria-label="Toggle navigation"
           >
-            {navOpen ? <X size={20} /> : <Menu size={20} />}
+            {navOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
         {navOpen && (
-          <div className="sm:hidden border-t border-[#E5E5E3] bg-[#FAFAF8]/97 backdrop-blur-md">
-            <nav className="flex flex-col px-6 pb-4 pt-2 text-sm text-[#333333]">
+          <div className="border-t border-[#E5E5E3] bg-white/98 backdrop-blur-md lg:hidden">
+            <nav className="flex flex-col px-5 pb-4 pt-2 text-sm text-[#333333]">
               <a
                 href="#feat"
-                className="border-b border-[#E5E5E3] py-2"
+                className="border-b border-[#E5E5E3] py-3"
                 onClick={() => setNavOpen(false)}
               >
                 Articles
               </a>
               <a
                 href="#topics"
-                className="border-b border-[#E5E5E3] py-2"
+                className="border-b border-[#E5E5E3] py-3"
                 onClick={() => setNavOpen(false)}
               >
                 Topics
               </a>
               <a
                 href="#about"
-                className="border-b border-[#E5E5E3] py-2"
+                className="border-b border-[#E5E5E3] py-3"
                 onClick={() => setNavOpen(false)}
               >
                 About
               </a>
               <a
                 href="#newsletter"
-                className="py-2 font-semibold text-[#3A5C4E]"
+                className="py-3 font-semibold text-[#3A5C4E]"
                 onClick={() => setNavOpen(false)}
               >
                 Subscribe →
@@ -127,164 +167,133 @@ export default function HomePage() {
         )}
       </header>
 
-      <div className="h-16" />
+      <div className="h-14 lg:h-16" />
 
-      {/* Hero */}
-      <section className="border-b border-[#E5E5E3] py-16 lg:py-20">
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <p className="mb-10 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-            Personal blog · Finance &amp; Life
-            <span className="h-px w-16 bg-[#3A5C4E]" />
+      {/* Hero — mobile: stacked | desktop: bg.png anchored to bottom */}
+      <section className="relative overflow-hidden border-b border-[#E5E5E3] bg-white lg:min-h-[calc(100dvh-4rem)]">
+        {/* Mobile */}
+        <div className="relative flex flex-col items-center bg-white px-5 pb-8 pt-5 text-center lg:hidden">
+          <h1 className="mb-5 font-serif text-[clamp(2.25rem,11vw,3rem)] italic leading-none tracking-tight text-[#3A5C4E]">
+            <span>Jugal</span>
+            <span className="mx-3 font-sans text-[0.45em] font-light not-italic text-[#3A5C4E]/25">
+              ·
+            </span>
+            <span>Lodha</span>
+          </h1>
+
+          <p className="mb-4 max-w-[18rem] font-sans text-[clamp(1.125rem,5vw,1.375rem)] font-extrabold uppercase leading-[1.2] tracking-[-0.01em] text-[#3A5C4E]">
+            Make Money <span className="text-[#2F4F44]">&apos;Clear&apos;</span>
           </p>
-          <div className="grid items-end gap-14 md:grid-cols-[minmax(0,1.4fr)_minmax(0,360px)]">
-            <div>
-              <h1 className="mb-6 font-serif text-[44px] leading-[0.97] tracking-[-0.03em] text-[#111111] sm:text-[56px] lg:text-[68px]">
-                Money,
-                <br />
-                Business
-                <br />
-                &amp; <span className="italic text-[#3A5C4E]">Life</span>
-              </h1>
-              <p className="mb-6 max-w-xl text-[16px] font-light leading-[1.72] text-[#888888]">
-                Thoughtful insights on finance, investing, business stories, lifestyle
-                ideas, and lessons from travel.
-              </p>
-              <p className="mb-10 max-w-xl text-[15px] leading-[1.8] text-[#333333]">
-                I&apos;m Jugal Lodha, a finance professional sharing practical insights
-                on money, business, and the experiences that shape how we think about
-                wealth and life.
-              </p>
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href="#feat"
-                  className="inline-flex items-center justify-center bg-[#3A5C4E] px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#4D7A69] transition-colors"
-                >
-                  Start Reading
-                </a>
-                <a
-                  href="#about"
-                  className="inline-flex items-center gap-2 border-b border-[#E5E5E3] pb-1 text-[13px] font-medium text-[#888888] hover:border-[#3A5C4E] hover:text-[#3A5C4E] transition-colors"
-                >
-                  About Jugal
-                  <ArrowRight size={16} />
-                </a>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#E5E5E3]">
-                <Image
-                  src="/images/jugal-profile.jpeg"
-                  alt="Jugal Lodha"
-                  fill
-                  className="object-cover object-top"
-                  priority
-                />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-[#3A5C4E] px-6 py-5">
-                <div>
-                  <div className="font-serif text-[19px] font-semibold tracking-tight text-white">
-                    Jugal Lodha
-                  </div>
-                  <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/60">
-                    Finance Professional &amp; Writer
-                  </div>
-                </div>
-                <div className="text-[12px] text-white/70">India 🇮🇳</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <p className="mb-6 max-w-[17rem] text-[14px] leading-[1.65] text-[#3A5C4E]/60">
+            Finance, investing, and building wealth — without the jargon.
+          </p>
 
-      {/* Stats */}
-      <section className="border-b border-[#E5E5E3] bg-[#FAFAF8]">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-[#E5E5E3] px-6 py-10 md:grid-cols-3 md:divide-x md:divide-y-0 md:px-12">
-          <div className="px-0 py-6 md:px-8 md:py-10">
-            <div className="font-serif text-[48px] leading-none tracking-[-0.04em] text-[#3A5C4E] md:text-[60px]">
-              {loading ? '—' : blogs.length > 0 ? blogs.length : '—'}
-            </div>
-            <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-              Articles
-            </div>
-            <p className="mt-2 text-[13.5px] font-light leading-[1.65] text-[#888888]">
-              In-depth essays on money, markets, and business.
-            </p>
+          <div className="relative mb-7 aspect-[5/6] w-full max-w-[190px] overflow-hidden rounded-2xl bg-[#F0F0EE]">
+            <Image
+              src="/images/jugal-profile.jpeg"
+              alt="Jugal Lodha"
+              fill
+              className="object-cover object-top"
+              priority
+            />
           </div>
-          <div className="px-0 py-6 md:px-8 md:py-10">
-            <div className="font-serif text-[48px] leading-none tracking-[-0.04em] text-[#3A5C4E] md:text-[60px]">
-              12k
-            </div>
-            <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-              Monthly readers
-            </div>
-            <p className="mt-2 text-[13.5px] font-light leading-[1.65] text-[#888888]">
-              Professionals and curious minds thinking differently about money.
-            </p>
+
+          <a
+            href="#feat"
+            className="inline-flex items-center justify-center rounded-lg bg-[#3A5C4E] px-8 py-3 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#4D7A69]"
+          >
+            Start Reading
+          </a>
+        </div>
+
+        {/* Desktop — image height fills section, bottom-aligned */}
+        <div className="absolute inset-0 hidden overflow-hidden bg-white lg:block" aria-hidden="true">
+          <img
+            src="/bg.png"
+            alt=""
+            fetchPriority="high"
+            className="absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2"
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto hidden min-h-[calc(100dvh-4rem)] max-w-[1400px] flex-col justify-between px-10 pb-10 pt-24 lg:flex xl:px-16">
+          <div className="flex flex-1 items-center">
+            <h1 className="font-serif text-[clamp(4.5rem,11vw,10rem)] leading-[0.82] tracking-[-0.045em] text-[#3A5C4E]">
+              Jugal
+            </h1>
+            <div className="flex-1" aria-hidden="true" />
+            <h1 className="font-serif text-[clamp(4.5rem,11vw,10rem)] leading-[0.82] tracking-[-0.045em] text-[#3A5C4E]">
+              Lodha
+            </h1>
           </div>
-          <div className="px-0 py-6 md:px-8 md:py-10">
-            <div className="font-serif text-[48px] leading-none tracking-[-0.04em] text-[#3A5C4E] md:text-[60px]">
-              4+
-            </div>
-            <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-              Years writing
-            </div>
-            <p className="mt-2 text-[13.5px] font-light leading-[1.65] text-[#888888]">
-              Consistent, unhurried writing since 2021. Quality over noise.
+          <div className="flex items-end justify-between gap-8">
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#3A5C4E]/55">
+              Money · Business · Life
             </p>
+            <a
+              href="#feat"
+              className="inline-flex items-center gap-3 border border-[#3A5C4E]/30 bg-[#3A5C4E] px-10 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#4D7A69]"
+            >
+              Start Reading
+              <ArrowRight size={14} />
+            </a>
           </div>
         </div>
       </section>
 
       {/* Featured */}
       <section id="feat" className="border-b border-[#E5E5E3] bg-[#FAFAF8]">
-        <div className="mx-auto flex max-w-6xl items-baseline justify-between px-6 pb-6 pt-12 lg:px-12">
-          <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-              Featured
+        <div className="mx-auto max-w-6xl px-5 pb-5 pt-10 text-center lg:px-12 lg:pb-6 lg:pt-12 lg:text-left">
+          <div className="lg:flex lg:items-baseline lg:justify-between">
+            <div>
+              <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
+                Featured
+              </div>
+              <h2 className="font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]">
+                Worth reading first
+              </h2>
             </div>
-            <h2 className="font-serif text-[28px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]">
-              Worth reading first
-            </h2>
+            {latestBlogs.length > 0 && (
+              <a
+                href="#latest-heading"
+                className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#3A5C4E] lg:mt-0"
+              >
+                All articles →
+              </a>
+            )}
           </div>
-          <a
-            href="#latest-heading"
-            className="hidden items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#3A5C4E] md:inline-flex"
-          >
-            All articles →
-          </a>
         </div>
 
-        <div className="mx-auto max-w-6xl px-6 pb-12 lg:px-12">
-          <div className="grid gap-px bg-[#E5E5E3] md:grid-cols-3">
-            {primaryFeatured ? (
+        <div className="mx-auto max-w-6xl px-5 pb-10 lg:px-12 lg:pb-12">
+          <div className="grid gap-4 md:grid-cols-2">
+            {loading ? (
+              <div className="flex items-center justify-center rounded-2xl border border-dashed border-[#E5E5E3] bg-white p-10 md:col-span-2">
+                <p className="text-sm text-[#888888]">Loading articles…</p>
+              </div>
+            ) : primaryFeatured ? (
               <Link
                 href={`/blog/${primaryFeatured.slug}`}
-                className="group col-span-1 bg-white md:col-span-2 md:grid md:grid-cols-2"
+                className={`group overflow-hidden rounded-2xl border border-[#E5E5E3] bg-white ${
+                  secondaryFeatured ? '' : 'md:max-w-xl'
+                }`}
               >
-                <div className="flex aspect-[16/10] items-center justify-center bg-[#E5E5E3] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888] md:aspect-auto md:min-h-[260px]">
-                  {primaryFeatured.featured_image ? (
-                    <Image
-                      src={primaryFeatured.featured_image}
-                      alt={primaryFeatured.title}
-                      width={640}
-                      height={400}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span>Cover · Money &amp; Investing</span>
-                  )}
+                <div className="relative h-28 w-full overflow-hidden bg-[#E5E5E3] sm:h-32">
+                  <Image
+                    src={primaryFeatured.featured_image}
+                    alt={primaryFeatured.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 576px"
+                  />
                 </div>
-                <div className="flex flex-col p-9">
-                  <span className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3A5C4E]">
-                    Featured article
-                  </span>
-                  <h3 className="mb-3 font-serif text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] group-hover:text-[#3A5C4E] transition-colors md:text-[26px]">
+                <div className="flex flex-col p-5">
+                  <h3 className="mb-2 font-serif text-[18px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] transition-colors group-hover:text-[#3A5C4E] md:text-[20px]">
                     {primaryFeatured.title}
                   </h3>
-                  <p className="mb-6 text-[13px] font-light leading-[1.7] text-[#888888]">
+                  <p className="mb-4 line-clamp-2 text-[13px] font-light leading-[1.7] text-[#888888]">
                     {primaryFeatured.excerpt}
                   </p>
-                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-4 text-[11px] font-medium text-[#888888]">
+                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-3 text-[11px] font-medium text-[#888888]">
                     <span>{formatDate(primaryFeatured.created_at)}</span>
                     <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
                     <span>Read</span>
@@ -292,7 +301,7 @@ export default function HomePage() {
                 </div>
               </Link>
             ) : (
-              <div className="col-span-1 flex items-center justify-center bg-white p-12 md:col-span-2">
+              <div className="flex items-center justify-center rounded-2xl border border-dashed border-[#E5E5E3] bg-white p-8 md:col-span-2">
                 <p className="max-w-md text-center text-[14px] font-light leading-relaxed text-[#888888]">
                   Publish your first article in Sanity Studio to feature it here.
                 </p>
@@ -302,230 +311,138 @@ export default function HomePage() {
             {secondaryFeatured ? (
               <Link
                 href={`/blog/${secondaryFeatured.slug}`}
-                className="group bg-white p-9"
+                className="group overflow-hidden rounded-2xl border border-[#E5E5E3] bg-white"
               >
-                <div className="mb-5 flex aspect-[16/9] items-center justify-center bg-[#E5E5E3] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Business Stories
+                <div className="relative h-28 w-full overflow-hidden bg-[#E5E5E3] sm:h-32">
+                  <Image
+                    src={secondaryFeatured.featured_image}
+                    alt={secondaryFeatured.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 576px"
+                  />
                 </div>
-                <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3A5C4E]">
-                  From the blog
-                </span>
-                <h3 className="mb-3 font-serif text-[20px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] group-hover:text-[#3A5C4E] transition-colors">
-                  {secondaryFeatured.title}
-                </h3>
-                <p className="mb-6 text-[13px] font-light leading-[1.7] text-[#888888]">
-                  {secondaryFeatured.excerpt}
-                </p>
-                <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-4 text-[11px] font-medium text-[#888888]">
-                  <span>{formatDate(secondaryFeatured.created_at)}</span>
-                  <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
-                  <span>Read</span>
+                <div className="flex flex-col p-5">
+                  <h3 className="mb-2 font-serif text-[18px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] transition-colors group-hover:text-[#3A5C4E]">
+                    {secondaryFeatured.title}
+                  </h3>
+                  <p className="mb-4 line-clamp-2 text-[13px] font-light leading-[1.7] text-[#888888]">
+                    {secondaryFeatured.excerpt}
+                  </p>
+                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-3 text-[11px] font-medium text-[#888888]">
+                    <span>{formatDate(secondaryFeatured.created_at)}</span>
+                    <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
+                    <span>Read</span>
+                  </div>
                 </div>
               </Link>
-            ) : (
-              <div className="flex items-center justify-center bg-white p-9 text-center">
-                <p className="text-[13px] font-light leading-relaxed text-[#888888]">
-                  More articles coming soon.
-                </p>
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
 
       {/* About */}
       <section id="about" className="border-y border-[#E5E5E3] bg-[#FAFAF8]">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-2 lg:px-12 lg:py-20">
-          <div>
-            <span className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-              About Jugal
-            </span>
-            <h2 className="mb-6 font-serif text-[40px] font-semibold leading-[1.1] tracking-[-0.025em] text-[#111111] sm:text-[46px]">
-              Finance
-              <br />
-              professional.
-              <br />
-              <span className="italic text-[#3A5C4E]">Writer.</span>
-              <br />
-              Observer.
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-12 lg:py-20">
+          <div className="text-center lg:text-left">
+            <h2 className="mb-4 font-serif text-[28px] font-semibold leading-[1.15] tracking-[-0.025em] text-[#111111] sm:text-[36px] lg:mb-6 lg:text-[46px]">
+              Finance professional,{' '}
+              <span className="italic text-[#3A5C4E]">writer &amp; observer.</span>
             </h2>
-            <p className="mb-3 text-[15px] font-light leading-[1.82] text-[#888888]">
-              I&apos;m Jugal Lodha — a finance professional based in India, working at
-              the intersection of markets, money, and human behavior.
+            <p className="mx-auto max-w-md text-[15px] font-light leading-[1.75] text-[#888888] lg:mx-0">
+              I work at the intersection of markets, money, and human behavior — writing
+              to make finance feel less loud and more useful.
             </p>
-            <p className="mb-6 text-[15px] font-light leading-[1.82] text-[#888888]">
-              This blog is my attempt to make finance feel less loud and more useful.
-              No sponsored content. No noise. Just ideas worth sitting with.
-            </p>
-            <a
-              href="/about"
-              className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#3A5C4E]"
-            >
-              Read more about me →
-            </a>
           </div>
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-px bg-[#E5E5E3]">
-              <div className="bg-white px-7 py-6">
-                <div className="font-serif text-[36px] font-semibold leading-none tracking-[-0.03em] text-[#3A5C4E]">
-                  {loading ? '—' : blogs.length > 0 ? blogs.length : '—'}
-                </div>
-                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Articles
-                </div>
-              </div>
-              <div className="bg-white px-7 py-6">
-                <div className="font-serif text-[36px] font-semibold leading-none tracking-[-0.03em] text-[#3A5C4E]">
-                  12k
-                </div>
-                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Readers / mo
-                </div>
-              </div>
-              <div className="bg-white px-7 py-6">
-                <div className="font-serif text-[36px] font-semibold leading-none tracking-[-0.03em] text-[#3A5C4E]">
-                  4+
-                </div>
-                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Years writing
-                </div>
-              </div>
-              <div className="bg-white px-7 py-6">
-                <div className="font-serif text-[36px] font-semibold leading-none tracking-[-0.03em] text-[#3A5C4E]">
-                  4
-                </div>
-                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
-                  Topics
-                </div>
-              </div>
-            </div>
-            <blockquote className="bg-[#3A5C4E] px-9 py-8 font-serif text-[18px] italic leading-[1.55] text-white">
-              <span className="mb-2 block text-[40px] leading-none text-white/40">“</span>
-              Finance should feel like a quiet advantage — not a source of constant
-              anxiety.
-              <span className="mt-4 block font-sans text-[11px] font-semibold not-italic uppercase tracking-[0.1em] text-white/60">
-                — Jugal Lodha
-              </span>
-            </blockquote>
-          </div>
+          <blockquote className="rounded-2xl bg-[#3A5C4E] px-6 py-7 text-center font-serif text-[16px] italic leading-[1.55] text-white sm:px-9 sm:py-8 sm:text-[18px] lg:text-left">
+            Finance should feel like a quiet advantage — not a source of constant
+            anxiety.
+          </blockquote>
         </div>
       </section>
 
       {/* Topics */}
       <section id="topics" className="border-b border-[#E5E5E3] bg-[#FAFAF8]">
-        <div className="mx-auto max-w-6xl px-6 pb-4 pt-12 lg:px-12">
-          <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
+        <div className="mx-auto max-w-6xl px-5 pb-4 pt-10 text-center lg:px-12 lg:pt-12 lg:text-left">
+          <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
             Explore
           </div>
-          <h2 className="mb-8 font-serif text-[28px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]">
+          <h2 className="mb-6 font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:mb-8 md:text-[32px]">
             Topics I write about
           </h2>
         </div>
-        <div className="mx-auto max-w-6xl px-6 pb-14 lg:px-12">
-          <div className="grid gap-px bg-[#E5E5E3] md:grid-cols-2 lg:grid-cols-4">
-            <a
-              href="#latest-heading"
-              className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
-            >
-              <span className="mb-4 block text-[26px]">₹</span>
-              <div className="mb-2 font-serif text-[17px] font-semibold tracking-[-0.01em] text-[#111111]">
-                Money &amp; Investing
-              </div>
-              <p className="text-[12.5px] font-light leading-[1.65] text-[#888888]">
-                Personal finance, investing frameworks, money psychology for the long
-                game.
-              </p>
-            </a>
-            <a
-              href="#latest-heading"
-              className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
-            >
-              <span className="mb-4 block text-[26px]">📊</span>
-              <div className="mb-2 font-serif text-[17px] font-semibold tracking-[-0.01em] text-[#111111]">
-                Business Stories
-              </div>
-              <p className="text-[12.5px] font-light leading-[1.65] text-[#888888]">
-                Company deep-dives, case studies, notable frauds, business lessons.
-              </p>
-            </a>
-            <a
-              href="#latest-heading"
-              className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
-            >
-              <span className="mb-4 block text-[26px]">✦</span>
-              <div className="mb-2 font-serif text-[17px] font-semibold tracking-[-0.01em] text-[#111111]">
-                Lifestyle &amp; Thinking
-              </div>
-              <p className="text-[12.5px] font-light leading-[1.65] text-[#888888]">
-                Productivity, habits, and how to build a life that quietly compounds.
-              </p>
-            </a>
-            <a
-              href="#latest-heading"
-              className="relative block bg-white px-7 py-9 hover:bg-[#EEF3F1] transition-colors"
-            >
-              <span className="mb-4 block text-[26px]">✈</span>
-              <div className="mb-2 font-serif text-[17px] font-semibold tracking-[-0.01em] text-[#111111]">
-                Travel &amp; Experiences
-              </div>
-              <p className="text-[12.5px] font-light leading-[1.65] text-[#888888]">
-                Travel stories and reflections on what places reveal about money and
-                life.
-              </p>
-            </a>
+        <div className="mx-auto max-w-6xl px-5 pb-10 lg:px-12 lg:pb-14">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {topics.map((topic, index) => {
+              const Icon = topic.icon
+              return (
+                <a
+                  key={topic.title}
+                  href="#feat"
+                  className="group relative flex min-h-0 flex-col overflow-hidden rounded-2xl border border-[#E5E5E3]/70 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3A5C4E]/25 hover:shadow-[0_12px_32px_rgba(58,92,78,0.12)] lg:min-h-[220px] lg:p-7"
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#EEF3F1] opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                  <span className="mb-4 font-mono text-[11px] font-medium tracking-widest text-[#C5C5C3] transition-colors group-hover:text-[#3A5C4E]/50 lg:mb-5">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF3F1] text-[#3A5C4E] ring-1 ring-[#3A5C4E]/10 transition-all duration-300 group-hover:bg-[#3A5C4E] group-hover:text-white group-hover:ring-[#3A5C4E] lg:mb-5 lg:h-12 lg:w-12">
+                    <Icon size={20} strokeWidth={1.75} />
+                  </div>
+                  <h3 className="mb-2 font-serif text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#111111] transition-colors group-hover:text-[#3A5C4E] lg:text-[18px]">
+                    {topic.title}
+                  </h3>
+                  <p className="mb-4 flex-1 text-[13px] leading-[1.65] text-[#666666] lg:mb-6 lg:text-[13.5px] lg:leading-[1.7]">
+                    {topic.description}
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#3A5C4E]">
+                    Read
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </span>
+                </a>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* Latest / Articles list */}
+      {/* Latest — only posts not already in Featured */}
+      {latestBlogs.length > 0 && (
       <section
         aria-labelledby="latest-heading"
         className="border-b border-[#E5E5E3] bg-[#FAFAF8]"
       >
-        <div className="mx-auto flex max-w-6xl items-baseline justify-between px-6 pb-6 pt-12 lg:px-12">
-          <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-              Latest
-            </div>
-            <h2
-              id="latest-heading"
-              className="font-serif text-[28px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]"
-            >
-              Recent writing
-            </h2>
+        <div className="mx-auto max-w-6xl px-5 pb-5 pt-10 text-center lg:px-12 lg:pb-6 lg:pt-12 lg:text-left">
+          <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
+            Latest
           </div>
+          <h2
+            id="latest-heading"
+            className="font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]"
+          >
+            Recent writing
+          </h2>
         </div>
-        <div className="mx-auto max-w-6xl px-6 pb-14 lg:px-12">
-          {loading ? (
-            <div className="flex items-center justify-center rounded-xl border border-dashed border-[#E5E5E3] py-10 px-6">
-              <p className="text-sm text-[#888888]">Loading articles…</p>
-            </div>
-          ) : blogs.length === 0 ? (
-            <div className="space-y-px bg-[#E5E5E3]">
-              <div className="bg-white px-9 py-8">
-                <p className="text-sm text-[#888888]">
-                  No articles have been published yet. The first one will arrive soon.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="grid gap-px bg-[#E5E5E3] md:grid-cols-3">
-              {blogs.slice(0, 3).map((blog) => (
+        <div className="mx-auto max-w-6xl px-5 pb-10 lg:px-12 lg:pb-14">
+          <div className="grid gap-4 md:gap-px md:bg-[#E5E5E3] md:grid-cols-3">
+              {latestBlogs.map((blog) => (
                 <Link
                   key={blog.id}
                   href={`/blog/${blog.slug}`}
-                  className="group flex flex-col bg-white p-9"
+                  className="group flex flex-col rounded-2xl border border-[#E5E5E3] bg-white p-5 md:rounded-none md:border-0 md:p-9"
                 >
-                  <span className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3A5C4E]">
-                    {blog.author || 'Article'}
-                  </span>
-                  <h3 className="mb-2 font-serif text-[18px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] group-hover:text-[#3A5C4E] transition-colors">
+                  <h3 className="mb-2 font-serif text-[17px] font-semibold leading-[1.3] tracking-[-0.01em] text-[#111111] transition-colors group-hover:text-[#3A5C4E] md:text-[18px]">
                     {blog.title}
                   </h3>
-                  <p className="mb-6 text-[13px] font-light leading-[1.65] text-[#888888] line-clamp-3">
+                  <p className="mb-4 line-clamp-3 text-[13px] font-light leading-[1.65] text-[#888888] md:mb-6">
                     {blog.excerpt}
                   </p>
-                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-4 text-[11px] font-medium text-[#888888]">
+                  <div className="mt-auto flex items-center gap-3 border-t border-[#E5E5E3] pt-3 text-[11px] font-medium text-[#888888] md:pt-4">
                     <span>{formatDate(blog.created_at)}</span>
                     <span className="h-[2px] w-[2px] rounded-full bg-[#E5E5E3]" />
                     <span className="inline-flex items-center gap-1">
@@ -538,40 +455,32 @@ export default function HomePage() {
                   </div>
                 </Link>
               ))}
-            </div>
-          )}
+          </div>
         </div>
       </section>
+      )}
 
       {/* Newsletter */}
       <section
         id="newsletter"
         className="border-b border-[#E5E5E3] bg-[#FAFAF8]"
       >
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-2 lg:px-12 lg:py-20">
-          <div>
-            <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 lg:grid-cols-2 lg:gap-12 lg:px-12 lg:py-20">
+          <div className="text-center lg:text-left">
+            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
               Newsletter
             </div>
-            <h2 className="mb-4 font-serif text-[36px] font-semibold leading-[1.08] tracking-[-0.025em] text-[#111111] sm:text-[44px]">
-              Money
-              <br />
-              thoughts
-              <br />
-              <span className="italic text-[#3A5C4E]">
-                in your
-                <br />
-                inbox
-              </span>
+            <h2 className="mb-3 font-serif text-[28px] font-semibold leading-[1.1] tracking-[-0.025em] text-[#111111] sm:text-[36px] lg:mb-4 lg:text-[44px]">
+              Money thoughts,{' '}
+              <span className="italic text-[#3A5C4E]">in your inbox</span>
             </h2>
-            <p className="text-[15px] font-light leading-[1.72] text-[#888888]">
-              Occasional reflections on finance, business, and life. No noise. No
-              spam. Just ideas worth thinking about — sent when there&apos;s something
-              worth saying.
+            <p className="mx-auto max-w-sm text-[14px] font-light leading-[1.7] text-[#888888] lg:mx-0 lg:text-[15px] lg:leading-[1.72]">
+              Occasional reflections on finance and life. No spam — only when
+              there&apos;s something worth saying.
             </p>
           </div>
           <div>
-            <form className="space-y-4 rounded border border-[#E5E5E3] bg-white px-9 py-8">
+            <form className="space-y-4 rounded-2xl border border-[#E5E5E3] bg-white px-5 py-6 lg:rounded lg:px-9 lg:py-8">
               <input
                 type="text"
                 placeholder="Your first name"
@@ -584,12 +493,12 @@ export default function HomePage() {
               />
               <button
                 type="button"
-                className="mt-4 w-full bg-[#3A5C4E] py-3 text-[12px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#4D7A69] transition-colors"
+                className="mt-2 w-full rounded-lg bg-[#3A5C4E] py-3 text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#4D7A69] lg:mt-4"
               >
                 Subscribe — it&apos;s free
               </button>
               <p className="pt-1 text-center text-[11px] text-[#888888]">
-                No spam, ever. Unsubscribe anytime.
+                Unsubscribe anytime.
               </p>
             </form>
           </div>
@@ -598,15 +507,15 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="bg-[#111111] py-8">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 lg:px-12">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 text-center lg:flex-row lg:flex-wrap lg:items-center lg:justify-between lg:gap-4 lg:px-12 lg:text-left">
           <Link
             href="/"
             className="font-serif text-[16px] font-semibold tracking-tight text-white"
           >
             jugal<span className="text-[#3A5C4E]">.</span>money
           </Link>
-          <div className="flex flex-wrap items-center gap-4 text-[11px] font-medium uppercase tracking-[0.1em] text-white/40">
-            <Link href="/#latest-heading" className="hover:text-white/90 transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.1em] text-white/40 lg:justify-start">
+            <Link href="/#feat" className="hover:text-white/90 transition-colors">
               Articles
             </Link>
             <a href="#about" className="hover:text-white/90 transition-colors">
