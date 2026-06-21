@@ -3,8 +3,9 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'jugal.money - Money Talks by Jugal Lodha',
-  description: 'Read insightful money talks and financial wisdom from Jugal Lodha. Stay informed on personal finance, investing, and wealth building.',
+  title: 'jugal.money — writing by Jugal Lodha',
+  description:
+    'Essays on money, business, and everyday decisions. Written by a finance professional who prefers plain English over jargon.',
   icons: {
     icon: [
       {

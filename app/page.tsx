@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import {
   ArrowRight,
   BarChart3,
+  BookOpen,
   IndianRupee,
   Instagram,
   Linkedin,
@@ -56,30 +57,36 @@ export default function HomePage() {
     })
   }
 
-  const topics = [
+  const pillars = [
     {
       icon: IndianRupee,
       title: 'Money & Investing',
       description:
-        'Personal finance, investing frameworks, money psychology for the long game.',
+        'Savings, investing, and why we do dumb things with money even when we know better.',
     },
     {
       icon: BarChart3,
       title: 'Business Stories',
       description:
-        'Company deep-dives, case studies, notable frauds, business lessons.',
+        'How companies won, how they screwed up, and what stuck with me after reading about both.',
     },
     {
       icon: Sparkles,
-      title: 'Lifestyle & Thinking',
+      title: 'Life & Decisions',
       description:
-        'Productivity, habits, and how to build a life that quietly compounds.',
+        'Habits, trade-offs, and the everyday choices that show up in your bank account later.',
+    },
+    {
+      icon: BookOpen,
+      title: 'Written for humans',
+      description:
+        'If I have to read a sentence twice, I rewrite it. No jargon for the sake of sounding smart.',
     },
     {
       icon: Plane,
-      title: 'Travel & Experiences',
+      title: 'Travel & Places',
       description:
-        'Travel stories and reflections on what places reveal about money and life.',
+        'Trips, cities, and the money lessons you only notice when you are somewhere unfamiliar.',
     },
   ] as const
 
@@ -113,7 +120,7 @@ export default function HomePage() {
               About
             </a>
             <a href="#newsletter" className="hover:text-[#111111] transition-colors">
-              Connect
+              Newsletter
             </a>
             <a
               href="#newsletter"
@@ -181,11 +188,11 @@ export default function HomePage() {
             <span>Lodha</span>
           </h1>
 
-          <p className="mb-4 max-w-[18rem] font-sans text-[clamp(1.125rem,5vw,1.375rem)] font-extrabold uppercase leading-[1.2] tracking-[-0.01em] text-[#3A5C4E]">
-            Make Money <span className="text-[#2F4F44]">&apos;Clear&apos;</span>
+          <p className="mb-4 max-w-[20rem] font-sans text-[clamp(1.125rem,5vw,1.375rem)] font-semibold leading-[1.35] tracking-[-0.01em] text-[#3A5C4E]">
+            Writing on money, business, and the stuff in between.
           </p>
-          <p className="mb-6 max-w-[17rem] text-[14px] leading-[1.65] text-[#3A5C4E]/60">
-            Finance, investing, and building wealth — without the jargon.
+          <p className="mb-6 max-w-[18rem] text-[14px] leading-[1.65] text-[#3A5C4E]/65">
+            From someone who works in finance and reads too much.
           </p>
 
           <div className="relative mb-7 aspect-[5/6] w-full max-w-[190px] overflow-hidden rounded-2xl bg-[#F0F0EE]">
@@ -202,7 +209,7 @@ export default function HomePage() {
             href="#feat"
             className="inline-flex items-center justify-center rounded-lg bg-[#3A5C4E] px-8 py-3 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#4D7A69]"
           >
-            Start Reading
+            Start here
           </a>
         </div>
 
@@ -227,14 +234,14 @@ export default function HomePage() {
             </h1>
           </div>
           <div className="flex items-end justify-between gap-8">
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#3A5C4E]/55">
+            <p className="text-[11px] font-medium tracking-[0.2em] text-[#3A5C4E]/55">
               Money · Business · Life
             </p>
             <a
               href="#feat"
               className="inline-flex items-center gap-3 border border-[#3A5C4E]/30 bg-[#3A5C4E] px-10 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#4D7A69]"
             >
-              Start Reading
+              Start here
               <ArrowRight size={14} />
             </a>
           </div>
@@ -247,10 +254,10 @@ export default function HomePage() {
           <div className="lg:flex lg:items-baseline lg:justify-between">
             <div>
               <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-                Featured
+                Start here
               </div>
               <h2 className="font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]">
-                Worth reading first
+                Not sure where to begin?
               </h2>
             </div>
             {latestBlogs.length > 0 && (
@@ -258,7 +265,7 @@ export default function HomePage() {
                 href="#latest-heading"
                 className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#3A5C4E] lg:mt-0"
               >
-                All articles →
+                All posts →
               </a>
             )}
           </div>
@@ -303,7 +310,8 @@ export default function HomePage() {
             ) : (
               <div className="flex items-center justify-center rounded-2xl border border-dashed border-[#E5E5E3] bg-white p-8 md:col-span-2">
                 <p className="max-w-md text-center text-[14px] font-light leading-relaxed text-[#888888]">
-                  Publish your first article in Sanity Studio to feature it here.
+                  First essay coming soon. Check back — or say hi on Instagram if you
+                  cannot wait.
                 </p>
               </div>
             )}
@@ -346,64 +354,50 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-12 lg:py-20">
           <div className="text-center lg:text-left">
             <h2 className="mb-4 font-serif text-[28px] font-semibold leading-[1.15] tracking-[-0.025em] text-[#111111] sm:text-[36px] lg:mb-6 lg:text-[46px]">
-              Finance professional,{' '}
-              <span className="italic text-[#3A5C4E]">writer &amp; observer.</span>
+              I work in finance.{' '}
+              <span className="italic text-[#3A5C4E]">I write on the side.</span>
             </h2>
             <p className="mx-auto max-w-md text-[15px] font-light leading-[1.75] text-[#888888] lg:mx-0">
-              I work at the intersection of markets, money, and human behavior — writing
-              to make finance feel less loud and more useful.
+              I&apos;m based in India and work in finance. I started this because
+              friends kept asking me the same questions about money, and I wanted
+              one place to answer them properly.
             </p>
           </div>
           <blockquote className="rounded-2xl bg-[#3A5C4E] px-6 py-7 text-center font-serif text-[16px] italic leading-[1.55] text-white sm:px-9 sm:py-8 sm:text-[18px] lg:text-left">
-            Finance should feel like a quiet advantage — not a source of constant
-            anxiety.
+            &ldquo;The best money decisions rarely feel exciting. I&apos;ve learned to
+            trust that.&rdquo;
           </blockquote>
         </div>
       </section>
 
-      {/* Topics */}
-      <section id="topics" className="border-b border-[#E5E5E3] bg-[#FAFAF8]">
-        <div className="mx-auto max-w-6xl px-5 pb-4 pt-10 text-center lg:px-12 lg:pt-12 lg:text-left">
-          <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-            Explore
-          </div>
-          <h2 className="mb-6 font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:mb-8 md:text-[32px]">
-            Topics I write about
+      {/* Topics — bento grid */}
+      <section id="topics" className="border-b border-[#D4E0DA] bg-gradient-to-b from-[#EEF3F1] via-[#E8F0EC] to-[#E3EBE6]">
+        <div className="mx-auto max-w-6xl px-5 py-12 lg:px-12 lg:py-16">
+          <h2 className="mx-auto mb-10 max-w-3xl text-center font-sans text-[clamp(1.625rem,4.5vw,2.5rem)] font-bold leading-[1.2] tracking-tight text-[#1a2e26] lg:mb-12">
+            What I keep writing about
           </h2>
-        </div>
-        <div className="mx-auto max-w-6xl px-5 pb-10 lg:px-12 lg:pb-14">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-            {topics.map((topic, index) => {
-              const Icon = topic.icon
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+            {pillars.map((pillar, index) => {
+              const Icon = pillar.icon
+              const isWide = index >= 3
               return (
                 <a
-                  key={topic.title}
+                  key={pillar.title}
                   href="#feat"
-                  className="group relative flex min-h-0 flex-col overflow-hidden rounded-2xl border border-[#E5E5E3]/70 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3A5C4E]/25 hover:shadow-[0_12px_32px_rgba(58,92,78,0.12)] lg:min-h-[220px] lg:p-7"
+                  className={`group flex flex-col rounded-[1.75rem] border border-[#3A5C4E]/10 bg-gradient-to-br from-[#3A5C4E] to-[#2F4F44] p-7 shadow-[0_8px_32px_rgba(58,92,78,0.14)] ring-1 ring-white/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-[#3A5C4E]/20 hover:shadow-[0_16px_48px_rgba(58,92,78,0.22)] lg:p-8 ${
+                    isWide ? 'sm:col-span-2 lg:col-span-3' : 'lg:col-span-2'
+                  }`}
                 >
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#EEF3F1] opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-                  />
-                  <span className="mb-4 font-mono text-[11px] font-medium tracking-widest text-[#C5C5C3] transition-colors group-hover:text-[#3A5C4E]/50 lg:mb-5">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF3F1] text-[#3A5C4E] ring-1 ring-[#3A5C4E]/10 transition-all duration-300 group-hover:bg-[#3A5C4E] group-hover:text-white group-hover:ring-[#3A5C4E] lg:mb-5 lg:h-12 lg:w-12">
-                    <Icon size={20} strokeWidth={1.75} />
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-[#C8E6D9] shadow-inner transition-all duration-500 group-hover:bg-white/20 group-hover:text-white">
+                    <Icon size={22} strokeWidth={1.5} />
                   </div>
-                  <h3 className="mb-2 font-serif text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#111111] transition-colors group-hover:text-[#3A5C4E] lg:text-[18px]">
-                    {topic.title}
+                  <h3 className="mb-2 font-sans text-[17px] font-bold leading-snug text-white lg:text-[18px]">
+                    {pillar.title}
                   </h3>
-                  <p className="mb-4 flex-1 text-[13px] leading-[1.65] text-[#666666] lg:mb-6 lg:text-[13.5px] lg:leading-[1.7]">
-                    {topic.description}
+                  <p className="text-[13px] leading-[1.65] text-white/75 lg:text-[14px] lg:leading-[1.7]">
+                    {pillar.description}
                   </p>
-                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#3A5C4E]">
-                    Read
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </span>
                 </a>
               )
             })}
@@ -419,13 +413,13 @@ export default function HomePage() {
       >
         <div className="mx-auto max-w-6xl px-5 pb-5 pt-10 text-center lg:px-12 lg:pb-6 lg:pt-12 lg:text-left">
           <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3A5C4E]">
-            Latest
+            More
           </div>
           <h2
             id="latest-heading"
             className="font-serif text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[32px]"
           >
-            Recent writing
+            Older posts
           </h2>
         </div>
         <div className="mx-auto max-w-6xl px-5 pb-10 lg:px-12 lg:pb-14">
@@ -471,34 +465,34 @@ export default function HomePage() {
               Newsletter
             </div>
             <h2 className="mb-3 font-serif text-[28px] font-semibold leading-[1.1] tracking-[-0.025em] text-[#111111] sm:text-[36px] lg:mb-4 lg:text-[44px]">
-              Money thoughts,{' '}
-              <span className="italic text-[#3A5C4E]">in your inbox</span>
+              An email when I&apos;ve written something{' '}
+              <span className="italic text-[#3A5C4E]">worth your time</span>
             </h2>
             <p className="mx-auto max-w-sm text-[14px] font-light leading-[1.7] text-[#888888] lg:mx-0 lg:text-[15px] lg:leading-[1.72]">
-              Occasional reflections on finance and life. No spam — only when
-              there&apos;s something worth saying.
+              No weekly roundup. No motivational quotes. Just a short note when a new
+              post goes live.
             </p>
           </div>
           <div>
             <form className="space-y-4 rounded-2xl border border-[#E5E5E3] bg-white px-5 py-6 lg:rounded lg:px-9 lg:py-8">
               <input
                 type="text"
-                placeholder="Your first name"
+                placeholder="First name"
                 className="w-full border-b border-[#E5E5E3] bg-transparent pb-3 text-[14px] text-[#111111] outline-none placeholder:text-[#888888] focus:border-[#3A5C4E]"
               />
               <input
                 type="email"
-                placeholder="Your email address"
+                placeholder="Email"
                 className="w-full border-b border-[#E5E5E3] bg-transparent pb-3 text-[14px] text-[#111111] outline-none placeholder:text-[#888888] focus:border-[#3A5C4E]"
               />
               <button
                 type="button"
                 className="mt-2 w-full rounded-lg bg-[#3A5C4E] py-3 text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#4D7A69] lg:mt-4"
               >
-                Subscribe — it&apos;s free
+                Subscribe
               </button>
               <p className="pt-1 text-center text-[11px] text-[#888888]">
-                Unsubscribe anytime.
+                One click to leave. Promise.
               </p>
             </form>
           </div>
