@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { PostBody } from '@/components/post-body'
 import { getPostBySlug, getPostSlugs } from '@/lib/sanity/queries'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)

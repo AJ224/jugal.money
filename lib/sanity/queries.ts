@@ -6,6 +6,7 @@ import type {
 } from '@/types/post'
 
 import { client } from '@/lib/sanity/client'
+import { sanityFetchOptions } from '@/lib/sanity/fetch-options'
 import { DEFAULT_BLOG_FALLBACK_IMAGE } from '@/lib/blog-fallback-image'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -75,16 +76,28 @@ function toPostDetail(post: SanityPost): PostDetail {
 }
 
 export async function getPublishedPosts(): Promise<PostCard[]> {
-  const posts = await client.fetch<SanityPostListItem[]>(publishedPostsQuery)
+  const posts = await client.fetch<SanityPostListItem[]>(
+    publishedPostsQuery,
+    {},
+    sanityFetchOptions,
+  )
   return posts.map(toPostCard)
 }
 
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
-  const post = await client.fetch<SanityPost | null>(postBySlugQuery, { slug })
+  const post = await client.fetch<SanityPost | null>(
+    postBySlugQuery,
+    { slug },
+    sanityFetchOptions,
+  )
   return post ? toPostDetail(post) : null
 }
 
 export async function getPostSlugs(): Promise<string[]> {
-  const rows = await client.fetch<{ slug: string }[]>(postSlugsQuery)
+  const rows = await client.fetch<{ slug: string }[]>(
+    postSlugsQuery,
+    {},
+    sanityFetchOptions,
+  )
   return rows.map((row) => row.slug)
 }
